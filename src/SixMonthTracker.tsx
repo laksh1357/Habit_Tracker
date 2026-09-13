@@ -150,6 +150,16 @@ export interface ActivityItem {
   badge: string;
 }
 
+function formatDateStr(d: Date): string {
+  return d.toISOString().split('T')[0];
+}
+
+function addDays(dateStr: string, days: number): string {
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + days);
+  return formatDateStr(d);
+}
+
 const PRESET_CATEGORIES = [
   'Health & Fitness',
   'Engineering & Coding',
@@ -529,13 +539,7 @@ const DEFAULT_ACTIVITIES: ActivityItem[] = [
   { id: 'act-1', timestamp: 'Just now', title: '180-Day Execution Tracker initialized', type: 'system', badge: 'System' }
 ];
 
-const formatDateStr = (d: Date): string => d.toISOString().split('T')[0];
 
-const addDays = (dateStr: string, days: number): string => {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() + days);
-  return formatDateStr(d);
-};
 
 const generateInitialLogs = (startDateStr: string): Record<string, DayLog> => {
   const logs: Record<string, DayLog> = {};
