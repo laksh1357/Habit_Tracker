@@ -186,10 +186,10 @@ const DEFAULT_MONTHS: MonthData[] = [
     name: 'Month 01',
     theme: 'Foundations & Atomic Routines',
     subtitle: 'Audit cognitive energy, establish early morning deep focus, and eliminate friction.',
-    status: 'Completed',
+    status: 'In Progress',
     targetDays: 30,
-    startDate: '2026-01-01',
-    endDate: '2026-01-30',
+    startDate: formatDateStr(new Date()),
+    endDate: addDays(formatDateStr(new Date()), 30),
     goals: [
       {
         id: 'g-1-1',
@@ -198,10 +198,10 @@ const DEFAULT_MONTHS: MonthData[] = [
         description: 'Log 30m blocks to identify attention leaks and purge unproductive meetings.',
         category: 'Mindset & Learning',
         priority: 'High',
-        targetDate: '2026-01-15',
-        completed: true,
-        progress: 100,
-        createdAt: '2026-01-01'
+        targetDate: addDays(formatDateStr(new Date()), 14),
+        completed: false,
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       },
       {
         id: 'g-1-2',
@@ -210,22 +210,22 @@ const DEFAULT_MONTHS: MonthData[] = [
         description: 'Zero incoming notifications before 10 AM; uninterrupted focus.',
         category: 'Health & Fitness',
         priority: 'High',
-        targetDate: '2026-01-22',
-        completed: true,
-        progress: 100,
-        createdAt: '2026-01-01'
+        targetDate: addDays(formatDateStr(new Date()), 21),
+        completed: false,
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       },
       {
         id: 'g-1-3',
         monthId: 1,
         name: 'Optimize high-ergonomics minimalist workstation',
         description: 'Dual monitor calibration, cable routing, and mechanical ergonomics.',
-        category: 'Engineering',
+        category: 'Engineering & Coding',
         priority: 'Medium',
-        targetDate: '2026-01-28',
-        completed: true,
-        progress: 100,
-        createdAt: '2026-01-05'
+        targetDate: addDays(formatDateStr(new Date()), 28),
+        completed: false,
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       }
     ]
   },
@@ -235,46 +235,46 @@ const DEFAULT_MONTHS: MonthData[] = [
     name: 'Month 02',
     theme: 'Core Craft & Architecture Build',
     subtitle: 'Systematize engineering pipelines, deploy robust foundations, and ship core architecture.',
-    status: 'In Progress',
+    status: 'Upcoming',
     targetDays: 30,
-    startDate: '2026-01-31',
-    endDate: '2026-03-01',
+    startDate: addDays(formatDateStr(new Date()), 30),
+    endDate: addDays(formatDateStr(new Date()), 60),
     goals: [
       {
         id: 'g-2-1',
         monthId: 2,
         name: 'Deploy distributed fullstack architecture prototype',
         description: 'Stateless services with edge caching, automated database migrations, and testing.',
-        category: 'Engineering',
+        category: 'Engineering & Coding',
         priority: 'High',
-        targetDate: '2026-02-12',
-        completed: true,
-        progress: 100,
-        createdAt: '2026-02-01'
+        targetDate: addDays(formatDateStr(new Date()), 45),
+        completed: false,
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       },
       {
         id: 'g-2-2',
         monthId: 2,
         name: 'Establish continuous automated CI/CD pipelines',
         description: 'Container build and zero-downtime deployment pipelines with test gates.',
-        category: 'Engineering',
+        category: 'Engineering & Coding',
         priority: 'Medium',
-        targetDate: '2026-02-22',
+        targetDate: addDays(formatDateStr(new Date()), 52),
         completed: false,
-        progress: 75,
-        createdAt: '2026-02-01'
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       },
       {
         id: 'g-2-3',
         monthId: 2,
         name: 'Publish 2 technical architecture whitepapers',
         description: 'Document high-throughput event processing and caching strategies.',
-        category: 'Career & Growth',
+        category: 'Academics & Growth',
         priority: 'Medium',
-        targetDate: '2026-02-28',
+        targetDate: addDays(formatDateStr(new Date()), 58),
         completed: false,
-        progress: 50,
-        createdAt: '2026-02-05'
+        progress: 0,
+        createdAt: formatDateStr(new Date())
       }
     ]
   },
@@ -435,8 +435,7 @@ const DEFAULT_MILESTONES: Milestone[] = [
     title: 'Zero-Distraction Morning Routine Locked',
     description: '30 consecutive days of starting deep work sprints before checking emails or feeds.',
     targetDate: '2026-01-20',
-    status: 'completed',
-    completionDate: '2026-01-19',
+    status: 'upcoming',
     createdAt: '2026-01-01'
   },
   {
@@ -445,8 +444,7 @@ const DEFAULT_MILESTONES: Milestone[] = [
     title: 'Atomic Habit Consistency > 85%',
     description: 'Maintained 85%+ completion across all foundational daily habits.',
     targetDate: '2026-01-30',
-    status: 'completed',
-    completionDate: '2026-01-30',
+    status: 'upcoming',
     createdAt: '2026-01-01'
   },
   {
@@ -455,8 +453,7 @@ const DEFAULT_MILESTONES: Milestone[] = [
     title: 'Core Platform Architecture Prototype Deployed',
     description: 'Stateless backend services operational with session caching and replication.',
     targetDate: '2026-02-14',
-    status: 'completed',
-    completionDate: '2026-02-13',
+    status: 'upcoming',
     createdAt: '2026-02-01'
   },
   {
@@ -465,7 +462,7 @@ const DEFAULT_MILESTONES: Milestone[] = [
     title: 'Automated CI/CD Test Coverage > 80%',
     description: 'Pull requests execute unit, integration, and visual regression suites.',
     targetDate: '2026-02-28',
-    status: 'in-progress',
+    status: 'upcoming',
     createdAt: '2026-02-01'
   },
   {
@@ -501,30 +498,14 @@ const DEFAULT_MILESTONES: Milestone[] = [
     title: '180-Day Personal Metamorphosis Capstone',
     description: 'Successful completion of all 6-month chapters and publication of findings.',
     targetDate: '2026-06-25',
-    status: 'locked',
+    status: 'upcoming',
     createdAt: '2026-06-01'
   }
 ];
 
 const DEFAULT_REFLECTIONS: Record<number, MonthReflection> = {
-  1: {
-    achieved: 'Completed 14-day deep time audit, established early morning 90m deep work block, and eliminated notification interruptions before midday.',
-    wentWell: 'Protecting the morning block created immense cognitive calm. Energy levels were drastically higher after removing mindless browsing.',
-    wentWrong: 'Had two days where late-night coding disrupted the sleep cycle, leading to sluggish mornings on days 8 and 22.',
-    learned: 'Consistency beats intensity. Starting at 70% effort reliably yields 3x the sustained output of erratic 100% all-nighters.',
-    improveNext: 'Enforce a strict 10:30 PM digital wind-down routine so sleep consistency remains steady into Month 2.',
-    overallSummary: 'Month 1 successfully established the operational foundation. The baseline habits are becoming second nature.',
-    updatedAt: '2026-01-30'
-  },
-  2: {
-    achieved: 'Delivered foundational core architecture prototype with JWT token rotation and high-speed Redis session management.',
-    wentWell: 'Deep work sprint velocity doubled. Complex technical architecture felt approachable due to protected focus blocks.',
-    wentWrong: 'Slightly lagged on publishing technical essays due to over-engineering testing harnesses.',
-    learned: 'Ship early iterations even when documentation is imperfect. Momentum compounds through tangible shipping.',
-    improveNext: 'Timebox documentation and research to 45 minutes instead of allowing unbounded rabbit holes.',
-    overallSummary: 'High technical breakthrough month. The system is taking concrete shape and resilience is higher.',
-    updatedAt: '2026-02-18'
-  },
+  1: { achieved: '', wentWell: '', wentWrong: '', learned: '', improveNext: '', overallSummary: '', updatedAt: '' },
+  2: { achieved: '', wentWell: '', wentWrong: '', learned: '', improveNext: '', overallSummary: '', updatedAt: '' },
   3: { achieved: '', wentWell: '', wentWrong: '', learned: '', improveNext: '', overallSummary: '', updatedAt: '' },
   4: { achieved: '', wentWell: '', wentWrong: '', learned: '', improveNext: '', overallSummary: '', updatedAt: '' },
   5: { achieved: '', wentWell: '', wentWrong: '', learned: '', improveNext: '', overallSummary: '', updatedAt: '' },
@@ -545,10 +526,7 @@ const DEFAULT_CODEX = `# 180-Day Personal Metamorphosis Codex
 `;
 
 const DEFAULT_ACTIVITIES: ActivityItem[] = [
-  { id: 'act-1', timestamp: '2 hours ago', title: 'Marked Goal "Distributed fullstack architecture" as Complete', type: 'goal', badge: 'Goal' },
-  { id: 'act-2', timestamp: 'Yesterday', title: 'Unlocked Milestone "Core Platform Architecture Deployed"', type: 'milestone', badge: 'Milestone' },
-  { id: 'act-3', timestamp: '2 days ago', title: 'Logged 4/4 daily habits for Day 44', type: 'habit', badge: 'Habit' },
-  { id: 'act-4', timestamp: '4 days ago', title: 'Updated Month 2 Retrospective Debrief', type: 'reflection', badge: 'Retros' }
+  { id: 'act-1', timestamp: 'Just now', title: '180-Day Execution Tracker initialized', type: 'system', badge: 'System' }
 ];
 
 const formatDateStr = (d: Date): string => d.toISOString().split('T')[0];
@@ -570,49 +548,13 @@ const generateInitialLogs = (startDateStr: string): Record<string, DayLog> => {
       cur.setDate(base.getDate() + totalOffset);
       const key = formatDateStr(cur);
 
-      let status: DayStatus = 'not-started';
-      let completedHabitIds: string[] = [];
-      let note = '';
-
-      if (m === 1) {
-        if (d === 8 || d === 22) {
-          status = 'missed';
-          note = 'Recovery & travel day';
-        } else if (d === 15) {
-          status = 'in-progress';
-          completedHabitIds = ['h-1', 'h-3'];
-        } else {
-          status = 'completed';
-          completedHabitIds = ['h-1', 'h-2', 'h-3', 'h-4'];
-          if (d === 10) note = 'Deep work block reached uninterrupted flow state.';
-        }
-      } else if (m === 2) {
-        if (d <= 14) {
-          if (d === 5) {
-            status = 'missed';
-            note = 'Urgent bug fix sprint';
-          } else {
-            status = 'completed';
-            completedHabitIds = ['h-1', 'h-2', 'h-3'];
-          }
-        } else if (d === 15 || d === 16) {
-          status = 'in-progress';
-          completedHabitIds = ['h-1', 'h-3'];
-          note = 'Focus on caching refactor';
-        } else {
-          status = 'not-started';
-        }
-      } else {
-        status = 'not-started';
-      }
-
       logs[key] = {
         date: key,
         monthId: m,
         dayIndex: d,
-        status,
-        completedHabitIds,
-        note
+        status: 'not-started',
+        completedHabitIds: [],
+        note: ''
       };
     }
   }
@@ -815,11 +757,26 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Journey Start Date (6-month period calculation)
+  // Purge legacy sample data from v1/v2 keys on first load
+  useEffect(() => {
+    try {
+      const legacyKeys = [
+        's6_start_date_v1', 's6_months_data_v1', 's6_milestones_data_v1', 's6_habits_data_v1',
+        's6_daily_logs_v1', 's6_reflections_v1', 's6_codex_notes_v1', 's6_activities_v1',
+        's6_habits_data_v2'
+      ];
+      legacyKeys.forEach((k) => localStorage.removeItem(k));
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  // Journey Start Date (6-month period calculation)
   const [journeyStartDate, setJourneyStartDate] = useState<string>(() => {
     try {
-      return localStorage.getItem('s6_start_date_v1') || '2026-01-01';
+      return localStorage.getItem('s6_start_date_v3') || formatDateStr(new Date());
     } catch {
-      return '2026-01-01';
+      return formatDateStr(new Date());
     }
   });
 
@@ -831,7 +788,7 @@ export default function App() {
   // Core Data States
   const [months, setMonths] = useState<MonthData[]>(() => {
     try {
-      const stored = localStorage.getItem('s6_months_data_v1');
+      const stored = localStorage.getItem('s6_months_data_v3');
       return stored ? JSON.parse(stored) : DEFAULT_MONTHS;
     } catch {
       return DEFAULT_MONTHS;
@@ -840,7 +797,7 @@ export default function App() {
 
   const [milestones, setMilestones] = useState<Milestone[]>(() => {
     try {
-      const stored = localStorage.getItem('s6_milestones_data_v1');
+      const stored = localStorage.getItem('s6_milestones_data_v3');
       return stored ? JSON.parse(stored) : DEFAULT_MILESTONES;
     } catch {
       return DEFAULT_MILESTONES;
@@ -849,13 +806,8 @@ export default function App() {
 
   const [habits, setHabits] = useState<HabitItem[]>(() => {
     try {
-      const stored = localStorage.getItem('s6_habits_data_v2');
+      const stored = localStorage.getItem('s6_habits_data_v3');
       if (stored) return JSON.parse(stored);
-      const oldStored = localStorage.getItem('s6_habits_data_v1');
-      if (oldStored) {
-        const parsed = JSON.parse(oldStored);
-        if (Array.isArray(parsed) && parsed.length > 4) return parsed;
-      }
       return DEFAULT_HABITS;
     } catch {
       return DEFAULT_HABITS;
@@ -864,7 +816,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('s6_habits_data_v2', JSON.stringify(habits));
+      localStorage.setItem('s6_habits_data_v3', JSON.stringify(habits));
     } catch (e) {
       console.error(e);
     }
@@ -872,16 +824,16 @@ export default function App() {
 
   const [dailyLogs, setDailyLogs] = useState<Record<string, DayLog>>(() => {
     try {
-      const stored = localStorage.getItem('s6_daily_logs_v1');
-      return stored ? JSON.parse(stored) : generateInitialLogs('2026-01-01');
+      const stored = localStorage.getItem('s6_daily_logs_v3');
+      return stored ? JSON.parse(stored) : generateInitialLogs(formatDateStr(new Date()));
     } catch {
-      return generateInitialLogs('2026-01-01');
+      return generateInitialLogs(formatDateStr(new Date()));
     }
   });
 
   const [reflections, setReflections] = useState<Record<number, MonthReflection>>(() => {
     try {
-      const stored = localStorage.getItem('s6_reflections_v1');
+      const stored = localStorage.getItem('s6_reflections_v3');
       return stored ? JSON.parse(stored) : DEFAULT_REFLECTIONS;
     } catch {
       return DEFAULT_REFLECTIONS;
@@ -890,7 +842,7 @@ export default function App() {
 
   const [codexNotes, setCodexNotes] = useState<string>(() => {
     try {
-      return localStorage.getItem('s6_codex_notes_v1') ?? DEFAULT_CODEX;
+      return localStorage.getItem('s6_codex_notes_v3') ?? DEFAULT_CODEX;
     } catch {
       return DEFAULT_CODEX;
     }
@@ -898,7 +850,7 @@ export default function App() {
 
   const [activities, setActivities] = useState<ActivityItem[]>(() => {
     try {
-      const stored = localStorage.getItem('s6_activities_v1');
+      const stored = localStorage.getItem('s6_activities_v3');
       return stored ? JSON.parse(stored) : DEFAULT_ACTIVITIES;
     } catch {
       return DEFAULT_ACTIVITIES;
@@ -974,14 +926,14 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('s6_start_date_v1', journeyStartDate);
-      localStorage.setItem('s6_months_data_v1', JSON.stringify(months));
-      localStorage.setItem('s6_milestones_data_v1', JSON.stringify(milestones));
-      localStorage.setItem('s6_habits_data_v1', JSON.stringify(habits));
-      localStorage.setItem('s6_daily_logs_v1', JSON.stringify(dailyLogs));
-      localStorage.setItem('s6_reflections_v1', JSON.stringify(reflections));
-      localStorage.setItem('s6_codex_notes_v1', codexNotes);
-      localStorage.setItem('s6_activities_v1', JSON.stringify(activities));
+      localStorage.setItem('s6_start_date_v3', journeyStartDate);
+      localStorage.setItem('s6_months_data_v3', JSON.stringify(months));
+      localStorage.setItem('s6_milestones_data_v3', JSON.stringify(milestones));
+      localStorage.setItem('s6_habits_data_v3', JSON.stringify(habits));
+      localStorage.setItem('s6_daily_logs_v3', JSON.stringify(dailyLogs));
+      localStorage.setItem('s6_reflections_v3', JSON.stringify(reflections));
+      localStorage.setItem('s6_codex_notes_v3', codexNotes);
+      localStorage.setItem('s6_activities_v3', JSON.stringify(activities));
     } catch (e) {
       console.error('LocalStorage write error:', e);
     }
