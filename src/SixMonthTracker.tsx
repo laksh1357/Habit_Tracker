@@ -79,6 +79,8 @@ export interface HabitItem {
   category: string;
   frequency: string;
   targetPerWeek: number;
+  dailyTarget?: string;
+  trackType?: string;
   icon?: string;
   createdAt: string;
 }
@@ -149,19 +151,32 @@ export interface ActivityItem {
 }
 
 const PRESET_CATEGORIES = [
-  'Engineering',
   'Health & Fitness',
-  'Career & Growth',
+  'Engineering & Coding',
+  'Academics & Growth',
+  'Mindset & Discipline',
   'Mindset & Learning',
-  'Financial Autonomy',
-  'Personal Craft'
+  'Personal Craft',
+  'Financial Autonomy'
 ];
 
 const DEFAULT_HABITS: HabitItem[] = [
-  { id: 'h-1', name: 'Deep Work Sprint (90m)', category: 'Engineering', frequency: 'Daily', targetPerWeek: 6, createdAt: '2026-01-01' },
-  { id: 'h-2', name: 'Physical Conditioning / Workout', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 5, createdAt: '2026-01-01' },
-  { id: 'h-3', name: 'High-Leverage Reading (30m)', category: 'Mindset & Learning', frequency: 'Daily', targetPerWeek: 6, createdAt: '2026-01-01' },
-  { id: 'h-4', name: 'Daily Retrospective & Review', category: 'Mindset & Learning', frequency: 'Daily', targetPerWeek: 7, createdAt: '2026-01-01' }
+  { id: 'h-1', name: '🏃 Exercise', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '15 min', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-2', name: '💻 DSA Coding', category: 'Engineering & Coding', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '2 hours', trackType: 'Minutes', createdAt: '2026-01-01' },
+  { id: 'h-3', name: '📚 Study', category: 'Academics & Growth', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '4 hours', trackType: 'Hours', createdAt: '2026-01-01' },
+  { id: 'h-4', name: '🚀 Productive Work', category: 'Engineering & Coding', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '1 hour', trackType: 'Hours', createdAt: '2026-01-01' },
+  { id: 'h-5', name: '🥗 No Junk Food', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '100%', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-6', name: '🍬 Zero Added Sugar', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '100%', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-7', name: '😴 Sleep', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '6–7 hours', trackType: 'Hours', createdAt: '2026-01-01' },
+  { id: 'h-8', name: '💧 Water', category: 'Health & Fitness', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '2–3 L', trackType: 'Litres', createdAt: '2026-01-01' },
+  { id: 'h-9', name: '📱 Social Media', category: 'Mindset & Discipline', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '≤ 1 hour', trackType: 'Minutes', createdAt: '2026-01-01' },
+  { id: 'h-10', name: '📖 Reading/Learning', category: 'Mindset & Learning', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '20 min', trackType: 'Minutes', createdAt: '2026-01-01' },
+  { id: 'h-11', name: '🧠 Revision', category: 'Academics & Growth', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '30 min', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-12', name: '📝 Daily Planning', category: 'Mindset & Discipline', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '5–10 min', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-13', name: '🌙 Night Reflection', category: 'Mindset & Discipline', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '5 min', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-14', name: '🧹 Room/Environment', category: 'Personal Craft', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '10 min', trackType: '✅/❌', createdAt: '2026-01-01' },
+  { id: 'h-15', name: '🎯 Daily Top 3 Tasks', category: 'Engineering & Coding', frequency: 'Daily', targetPerWeek: 7, dailyTarget: '3 tasks', trackType: 'Completed', createdAt: '2026-01-01' },
+  { id: 'h-16', name: '🔥 No Zero Day', category: 'Mindset & Discipline', frequency: 'Daily', targetPerWeek: 7, dailyTarget: 'Something meaningful', trackType: '✅/❌', createdAt: '2026-01-01' }
 ];
 
 const DEFAULT_MONTHS: MonthData[] = [
@@ -834,12 +849,26 @@ export default function App() {
 
   const [habits, setHabits] = useState<HabitItem[]>(() => {
     try {
-      const stored = localStorage.getItem('s6_habits_data_v1');
-      return stored ? JSON.parse(stored) : DEFAULT_HABITS;
+      const stored = localStorage.getItem('s6_habits_data_v2');
+      if (stored) return JSON.parse(stored);
+      const oldStored = localStorage.getItem('s6_habits_data_v1');
+      if (oldStored) {
+        const parsed = JSON.parse(oldStored);
+        if (Array.isArray(parsed) && parsed.length > 4) return parsed;
+      }
+      return DEFAULT_HABITS;
     } catch {
       return DEFAULT_HABITS;
     }
   });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('s6_habits_data_v2', JSON.stringify(habits));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [habits]);
 
   const [dailyLogs, setDailyLogs] = useState<Record<string, DayLog>>(() => {
     try {
@@ -913,8 +942,10 @@ export default function App() {
   // Habit Modal State
   const [habitModalOpen, setHabitModalOpen] = useState(false);
   const [newHabitName, setNewHabitName] = useState('');
-  const [newHabitCategory, setNewHabitCategory] = useState('Engineering');
-  const [newHabitTarget, setNewHabitTarget] = useState(6);
+  const [newHabitCategory, setNewHabitCategory] = useState('Health & Fitness');
+  const [newHabitDailyTarget, setNewHabitDailyTarget] = useState('');
+  const [newHabitTrackType, setNewHabitTrackType] = useState('✅/❌');
+  const [newHabitTarget, setNewHabitTarget] = useState(7);
 
   // Day Checkin Modal State
   const [activeDayLogModal, setActiveDayLogModal] = useState<{ dateKey: string; log: DayLog } | null>(null);
@@ -1346,11 +1377,14 @@ export default function App() {
       category: newHabitCategory,
       frequency: 'Daily',
       targetPerWeek: newHabitTarget,
+      dailyTarget: newHabitDailyTarget.trim() || undefined,
+      trackType: newHabitTrackType,
       createdAt: formatDateStr(new Date())
     };
 
     setHabits((prev) => [...prev, newH]);
     setNewHabitName('');
+    setNewHabitDailyTarget('');
     setHabitModalOpen(false);
     addActivity(`Added new recurring habit "${newH.name}"`, 'habit', 'Habit');
     showToast('Habit added to tracker');
@@ -2604,10 +2638,22 @@ export default function App() {
                         }`}
                       >
                         <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">
-                              {h.category}
-                            </span>
+                          <div className="flex items-center justify-between flex-wrap gap-1.5">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">
+                                {h.category}
+                              </span>
+                              {h.dailyTarget && (
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                                  Target: {h.dailyTarget}
+                                </span>
+                              )}
+                              {h.trackType && (
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                  Track: {h.trackType}
+                                </span>
+                              )}
+                            </div>
                             <button
                               onClick={() => handleDeleteHabit(h.id)}
                               className="text-slate-500 hover:text-rose-400"
@@ -3477,6 +3523,39 @@ export default function App() {
                 </select>
               </div>
 
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-300">Daily Target</label>
+                  <input
+                    type="text"
+                    value={newHabitDailyTarget}
+                    onChange={(e) => setNewHabitDailyTarget(e.target.value)}
+                    placeholder="e.g., 15 min, 2 hours, 100%"
+                    className={`w-full text-xs p-2.5 rounded-xl border outline-none ${
+                      isDarkEffective ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-200'
+                    }`}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-300">Track Type</label>
+                  <select
+                    value={newHabitTrackType}
+                    onChange={(e) => setNewHabitTrackType(e.target.value)}
+                    className={`w-full text-xs p-2.5 rounded-xl border outline-none ${
+                      isDarkEffective ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    <option value="✅/❌">✅/❌ (Done / Undone)</option>
+                    <option value="Minutes">Minutes</option>
+                    <option value="Hours">Hours</option>
+                    <option value="Litres">Litres</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Percent">Percent (%)</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-slate-300">Weekly Target ({newHabitTarget} days / week)</label>
                 <input
@@ -3546,18 +3625,32 @@ export default function App() {
                           log: { ...activeDayLogModal.log, completedHabitIds: next, status: nextStatus }
                         });
                       }}
-                      className={`p-2.5 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
+                      className={`p-2.5 rounded-xl border flex items-center justify-between gap-3 cursor-pointer transition-all ${
                         isChecked
                           ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
                           : 'bg-slate-900/40 border-slate-800 text-slate-400'
                       }`}
                     >
-                      <div className={`w-4 h-4 rounded-md border flex items-center justify-center ${
-                        isChecked ? 'bg-emerald-500 border-emerald-400 text-slate-950' : 'border-slate-700'
-                      }`}>
-                        {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-md border flex items-center justify-center ${
+                          isChecked ? 'bg-emerald-500 border-emerald-400 text-slate-950' : 'border-slate-700'
+                        }`}>
+                          {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                        </div>
+                        <span className="text-xs font-medium">{h.name}</span>
                       </div>
-                      <span className="text-xs font-medium">{h.name}</span>
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono">
+                        {h.dailyTarget && (
+                          <span className="px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300">
+                            {h.dailyTarget}
+                          </span>
+                        )}
+                        {h.trackType && (
+                          <span className="px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            {h.trackType}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
